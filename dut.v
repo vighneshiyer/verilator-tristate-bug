@@ -17,19 +17,23 @@ module model(input clk, inout ts_0, inout ts_1, inout ts_2, inout ts_3);
     assign ts_3 = (drive[3] ? d[3] : 1'bz);
 endmodule
 
-module datagen(input clk, output reg [3:0] drive, output reg [3:0] d);
+module datagen(input clk, output [3:0] drive, output [3:0] d);
     reg [3:0] cycle = 0;
+    reg [3:0] drive_reg = 0;
+    reg [3:0] d_reg = 0;
     always @(posedge clk) begin
         case (cycle)
             4'd1: begin
-                drive <= 4'b0010;
-                d <= 4'b1110;
+                drive_reg <= 4'b0010;
+                d_reg <= 4'b1110;
             end
             default: begin
-                drive <= 4'd0;
-                d <= 4'd0;
+                drive_reg <= 4'd0;
+                d_reg <= 4'd0;
             end
         endcase
         cycle <= cycle + 1;
     end
+    assign drive = drive_reg;
+    assign d = d_reg;
 endmodule

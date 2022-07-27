@@ -39,7 +39,9 @@ int main(int argc, char **argv, char **env) {
         // contextp->timeInc(1);
         main_time++;
         top->eval();
+#if VM_TRACE
         tfp->dump(main_time);
+#endif
     }
     top->final();
 
