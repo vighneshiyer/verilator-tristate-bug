@@ -13,6 +13,6 @@ tb_ivl: dut.v tb.v
 	iverilog $^ -o tb_ivl
 
 clean:
-	rm -rf obj_dir tb tb_noopt a.out *.vcd
+	rm -rf obj_dir tb tb_noopt a.out *.vcd tb_ivl
 
 .PHONY: clean verilator verilator_noopt iverilog all
