@@ -1,48 +1,54 @@
 # Inter-Module Tristate Verilator Bug
 
-- https://github.com/ucb-bar/chipyard/pull/1205 (causing failures in the SPI tests that use a SPI model written in Verilog that has tri-state IOs)
+- https://github.com/ucb-bar/chipyard/pull/1205 (latest Verilator leads to failures in the SPI tests that use a SPI model written in Verilog that has tristate IOs)
 - https://github.com/verilator/verilator/issues/3399 (potentially related Verilator issue)
 
 ## Results
 
-### verilator 4.106 -O3 (good)
+### iverilog (good)
+
+`make iverilog && ./tb_ivl`
 
 ```
-0
-0
-1
-0
+z z
+1 1
+1 1
+1 1
+```
+
+### verilator 4.106 -O3 (good)
+
+`make verilator && ./tb/tb`
+
+```
+0 0
+1 1
+1 1
+1 1
 ```
 
 ### verilator 4.224 -O3 (bad)
 
+`make verilator && ./tb/tb`
+
 ```
-00000000000000000000000000000000
-00000000000000000000000000000000
-00000000000000000000000000000000
-00000000000000000000000000000000
+00000000000000000000000000000000 0
+00000000000000000000000000000000 1
+00000000000000000000000000000000 1
+00000000000000000000000000000000 1
 ```
 
 ### verilator 4.224 -O0 (good-ish)
 
-```
-0
-0
-1
-0
-0
-```
-
-### iverilog (good)
+`make verilator_noopt && ./tb_noopt/tb`
 
 ```
-z
-z
-1
-z
+0 0
+1 1
+1 1
+1 1
+1 1
 ```
-
-Clearly a bug
 
 ### Bisecting
 
